@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: ["main", "dev", "feature/**"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  # ─────────────────────────────────────────────────────────────
+  # Job 1 — Install dependencies and verify the import graph
+  # ─────────────────────────────────────────────────────────────
+  validate-deps:
+    name: Validate Dependencies (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Verify core packages are importable
+        run: |
+          python -c "import plexapi; print('plexapi', plexapi.VERSION)"
+          python -c "import psutil; print('psutil', psutil.__version__)"
+          python -c "import colorama; print('colorama', colorama.__version__)"
+          python -c "import sqlite3; print('sqlite3 OK')"
+
+  # ─────────────────────────────────────────────────────────────
+  # Job 2 — Lint with flake8
+  # ─────────────────────────────────────────────────────────────
+  lint:
+    name: Lint (flake8)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install flake8
+        run: pip install flake8
+
+      - name: Run flake8
+        run: |
+          flake8 HyperShuffle.py TrueShuffle.py TrueShuffle1.py diagnostic.py \
+            --max-line-length=120 \
+            --extend-ignore=E501,W503,E203,E402,W605 \
+            --statistics \
+            --count

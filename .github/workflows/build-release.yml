@@ -1,0 +1,131 @@
+name: Build & Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"          # triggers on tags like v1.0.0, v1.2.3-beta, etc.
+
+permissions:
+  contents: write         # needed to create a GitHub Release and upload assets
+
+jobs:
+  # ─────────────────────────────────────────────────────────────
+  # Build the standalone Windows EXE with PyInstaller
+  # ─────────────────────────────────────────────────────────────
+  build-windows:
+    name: Build Windows EXE
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies + PyInstaller
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      # HyperShuffle.py imports `config` at startup; create a stub so
+      # PyInstaller can resolve it at build time without real credentials.
+      - name: Create stub config for build
+        run: |
+          @"
+          username = ""
+          password = ""
+          servers  = []
+          audioLang = "English"
+          subLang   = "English"
+          "@ | Out-File -Encoding utf8 config.py
+
+      - name: Build standalone EXE
+        run: |
+          pyinstaller --noconfirm --onefile --clean `
+            --name HyperShuffle `
+            --console `
+            HyperShuffle.py
+
+      - name: Verify EXE was created
+        run: Test-Path dist\HyperShuffle.exe
+
+      # ── Upload the EXE as a build artifact so it can be downloaded
+      #    even without a formal release (useful for pre-release testing).
+      - name: Upload EXE artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: HyperShuffle-windows-${{ github.ref_name }}
+          path: dist\HyperShuffle.exe
+          retention-days: 30
+
+  # ─────────────────────────────────────────────────────────────
+  # Create a GitHub Release and attach the EXE
+  # ─────────────────────────────────────────────────────────────
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: build-windows
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0        # full history so we can generate a changelog
+
+      - name: Download EXE artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: HyperShuffle-windows-${{ github.ref_name }}
+          path: dist/
+
+      - name: Generate changelog since last tag
+        id: changelog
+        run: |
+          PREV_TAG=$(git tag --sort=-version:refname | sed -n '2p')
+          if [ -z "$PREV_TAG" ]; then
+            CHANGELOG=$(git log --pretty=format:"- %s (%h)" | head -30)
+          else
+            CHANGELOG=$(git log "${PREV_TAG}..HEAD" --pretty=format:"- %s (%h)")
+          fi
+          echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "HyperShuffle ${{ github.ref_name }}"
+          body: |
+            ## 🎬 HyperShuffle ${{ github.ref_name }}
+
+            ### What's Changed
+            ${{ steps.changelog.outputs.CHANGELOG }}
+
+            ---
+
+            ### 📦 Installation
+
+            **Option A — Python (all platforms)**
+            ```bash
+            git clone https://github.com/${{ github.repository }}.git
+            cd HyperShuffle
+            pip install -r requirements.txt
+            cp config.example.py config.py   # then fill in your credentials
+            python HyperShuffle.py
+            ```
+
+            **Option B — Standalone EXE (Windows only)**
+            1. Download `HyperShuffle.exe` below
+            2. Place `config.py` in the same folder (copy from `config.example.py`)
+            3. Double-click or run from a terminal
+
+            > ⚠️ **config.py is required** — never share it, it contains your Plex credentials.
+          files: |
+            dist/HyperShuffle.exe
+          draft: false
+          prerelease: ${{ contains(github.ref_name, '-') }}  # e.g. v1.0.0-beta → pre-release
