@@ -89,8 +89,9 @@ username = "your_plex_username_or_email"
 password = "your_plex_password"
 servers  = ["Your_Server_Name"]   # as shown in your Plex dashboard
 
-audioLang = "English"   # preferred audio language
-subLang   = "English"   # preferred subtitle language
+audioLang      = "English"   # preferred audio language
+subLang        = "English"   # preferred subtitle language
+tv_library_name = "TV Shows" # exact name of your TV library in Plex
 ```
 
 You can list **multiple servers**:

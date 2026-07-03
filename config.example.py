@@ -20,3 +20,7 @@ audioLang = "English"
 
 # Preferred subtitle language (used for smart subtitle selection)
 subLang = "English"
+
+# The exact name of your TV library in Plex (check Settings → Libraries in Plex)
+# Common names: "TV Shows", "Television", "Series", "My Shows"
+tv_library_name = "TV Shows"

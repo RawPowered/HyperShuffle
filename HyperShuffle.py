@@ -490,7 +490,7 @@ class HyperShuffle:
         
         for server in self.connected_servers:
             try:
-                library = server.library.section('TV Shows')
+                library = server.library.section(getattr(config, 'tv_library_name', 'TV Shows'))
                 collections = library.collections()
                 for collection in collections:
                     all_collections.append((collection, server))
@@ -2264,7 +2264,7 @@ class HyperShuffle:
         target_collection = None
         for server in self.connected_servers:
             try:
-                library = server.library.section('TV Shows')
+                library = server.library.section(getattr(config, 'tv_library_name', 'TV Shows'))
                 collections = library.collections()
                 for collection in collections:
                     if collection.title.lower() == collection_name.lower():
@@ -2747,7 +2747,7 @@ class HyperShuffle:
                 
                 # Test collections
                 try:
-                    tv_library = server.library.section('TV Shows')
+                    tv_library = server.library.section(getattr(config, 'tv_library_name', 'TV Shows'))
                     collections = tv_library.collections()
                     print(f"    📚 TV Collections: {len(collections)} found")
                 except Exception as e:
