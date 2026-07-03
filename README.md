@@ -2,7 +2,7 @@
 
 > **Advanced Plex Collection Shuffling System** — intelligently picks what to watch next from your TV collections, so you never stare at a blank screen again.
 
-HyperShuffle is a polished, terminal-based tool that connects to your Plex Media Server, cycles through your curated TV collections, selects the least-watched episode (prioritising content you haven't seen yet), and queues it on any Plex client — all with a single keypress.
+HyperShuffle is a polished, terminal-based Python tool that connects to your Plex Media Server, cycles through your curated TV collections, selects the least-watched episode (prioritising content you haven't seen yet), and queues it on any Plex client — all with a single keypress. It also ships as a standalone Windows EXE so you don't need Python installed at all.
 
 ---
 
@@ -230,7 +230,7 @@ View counts are kept in sync on every shuffle. The database path is resolved in 
 3. Current working directory
 4. `%APPDATA%\HyperShuffle\myShows.db` (created automatically as a last resort)
 
-> 💡 For first-time use or to populate the database, run `TrueShuffle1.py` first — it creates and fills the DB. HyperShuffle will also auto-create the schema and populate it progressively as it runs.
+> 💡 **First-time use:** HyperShuffle auto-creates the database schema on startup and populates it progressively as you shuffle. No pre-seeding step is required.
 
 ---
 
@@ -291,18 +291,15 @@ At runtime, type `config` to open the full configuration menu. All settings are 
 
 ```
 HyperShuffle/
-├── HyperShuffle.py          # Main application (3 200+ lines)
-├── TrueShuffle.py           # Lightweight original shuffle script
-├── TrueShuffle1.py          # DB-management / data-population script
-├── config.example.py        # ← Copy this to config.py
-├── config.py                # Your credentials (gitignored!)
-├── requirements.txt         # Python dependencies
-├── HyperShuffle.spec        # PyInstaller build spec
+├── HyperShuffle.py             # Main application (3 200+ lines)
+├── config.example.py           # ← Copy this to config.py and fill in credentials
+├── config.py                   # Your credentials (gitignored — never committed!)
+├── requirements.txt            # Python dependencies
+├── HyperShuffle.spec           # PyInstaller build spec (for manual EXE builds)
 ├── build_hypershuffle_exe.bat  # One-click Windows EXE builder
-├── install_dependencies.py  # Dependency installer helper
-├── diagnostic.py            # Standalone diagnostic utilities
-├── myShows.db               # SQLite database (gitignored — created at runtime)
-├── collection_index.txt     # Persists current collection position (gitignored)
+├── run_hypershuffle.bat        # Launcher: auto-creates venv, installs deps, runs app
+├── myShows.db                  # SQLite database (gitignored — created at runtime)
+├── collection_index.txt        # Persists current collection position (gitignored)
 └── .gitignore
 ```
 
@@ -314,6 +311,7 @@ HyperShuffle/
 - Open Plex and ensure your TV library has **Collections** created
 - Check that `config.py` points to the correct server name (must match the name in your Plex dashboard)
 - Run `diag` from the HyperShuffle prompt for a detailed server/collection inventory
+- Run `check` for a quick health overview
 
 ### "No available clients"
 - Make sure at least one Plex client (app on TV, phone, desktop) is **open and active**
@@ -321,8 +319,8 @@ HyperShuffle/
 - Try `clients` command to force a re-scan
 
 ### "Database is locked"
-- Enable **Skip updates when busy** in `config`
-- Increase **Database retry attempts**
+- Enable **Skip updates when busy** in the `config` menu
+- Increase **Database retry attempts** in the `config` menu
 - Close any other processes that might have `myShows.db` open
 
 ### "Read timed out" / client unresponsive
@@ -360,7 +358,7 @@ This project is open source and available under the **MIT License**.
 
 ## 🙏 Acknowledgements
 
-Inspired by the original **plex-trueshuffle** project. HyperShuffle builds on that foundation with a full interactive interface, smart subtitle management, Samsung TV support, remote control mode, and a significantly expanded configuration system.
+Inspired by the [plex-trueshuffle](https://github.com/pastram-i/plex-trueshuffle) project. HyperShuffle is a ground-up rewrite with a full interactive interface, smart subtitle management, Samsung TV support, remote control mode, and a significantly expanded configuration system.
 
 ---
 
