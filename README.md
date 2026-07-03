@@ -61,11 +61,26 @@ HyperShuffle is a polished, terminal-based Python tool that connects to your Ple
 
 ---
 
-## 🚀 Installation
+## 🚀 Quick Start (Easiest Method)
+
+If you are on Windows and don't want to mess with Python, you can use the standalone version:
+
+1. **Download** the latest `HyperShuffle.exe` from the [Releases page](../../releases).
+2. **Download** the `config.example.py` file and rename it to `config.py`.
+3. **Edit** `config.py` in Notepad to enter your Plex username, password, and server name.
+4. Keep both files in the same folder and double-click `HyperShuffle.exe`!
+
+Alternatively, if you downloaded the full source code (ZIP) on Windows, just double-click **`run_hypershuffle.bat`**. It will automatically install what it needs and start the app.
+
+---
+
+## 💻 Advanced Installation (Python / macOS / Linux)
+
+If you prefer to run it via Python (requires Python 3.7+):
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/HyperShuffle.git
+git clone https://github.com/GatoGodMode/HyperShuffle.git
 cd HyperShuffle
 
 # 2. Install dependencies
