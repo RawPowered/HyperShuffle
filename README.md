@@ -80,7 +80,7 @@ If you prefer to run it via Python (requires Python 3.7+):
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/GatoGodMode/HyperShuffle.git
+git clone https://github.com/RawPowered/HyperShuffle.git
 cd HyperShuffle
 
 # 2. Install dependencies
