@@ -1,8 +1,8 @@
 # 🎬 HyperShuffle
 
-> **Advanced Plex Collection Shuffling System** — intelligently picks what to watch next from your TV collections, so you never stare at a blank screen again.
+> **Advanced Plex Collection Shuffling System**: intelligently picks what to watch next from your TV collections, so you never stare at a blank screen again.
 
-HyperShuffle is a polished, terminal-based Python tool that connects to your Plex Media Server, cycles through your curated TV collections, selects the least-watched episode (prioritising content you haven't seen yet), and queues it on any Plex client — all with a single keypress. It also ships as a standalone Windows EXE so you don't need Python installed at all.
+HyperShuffle is a polished, terminal-based Python tool that connects to your Plex Media Server, cycles through your curated TV collections, selects the least-watched episode (prioritising content you haven't seen yet), and queues it on any Plex client; all with a single keypress. It also ships as a standalone Windows EXE so you don't need Python installed at all.
 
 ---
 
@@ -10,10 +10,10 @@ HyperShuffle is a polished, terminal-based Python tool that connects to your Ple
 
 | Feature | Description |
 |---|---|
-| 🎯 **Smart Episode Selection** | Always picks the episode with the lowest view-count in the current collection — so "unwatched" content comes first |
+| 🎯 **Smart Episode Selection** | Always picks the episode with the lowest view-count in the current collection; so "unwatched" content comes first |
 | 🔄 **Auto Collection Cycling** | Rotates through all your collections automatically on each shuffle, so you cycle through every genre over time |
 | 🎄 **Holiday Episode Filtering** | Pushes seasonal/holiday episodes to the back of the queue by default (or promotes them, your call) |
-| 📱 **Remote Control Mode** | Full in-terminal remote: skip, pause, stop, volume, subtitle control — without touching your TV |
+| 📱 **Remote Control Mode** | Full in-terminal remote: skip, pause, stop, volume, subtitle control; without touching your TV |
 | 🗣️ **Smart Subtitle Selection** | Scores and selects the most accurate subtitle stream for each episode automatically |
 | 🔀 **3-Pass Shuffle Mode** | Extra-randomised shuffle that breaks up predictable ordering |
 | 📺 **Samsung/Tizen Support** | Dedicated session-based fallback for Samsung smart TVs with limited API support |
@@ -91,7 +91,7 @@ cp config.example.py config.py
 # then edit config.py with your username, password, and server name
 ```
 
-> ⚠️ `config.py` is listed in `.gitignore` — your credentials will never be committed.
+> ⚠️ `config.py` is listed in `.gitignore`; your credentials will never be committed.
 
 ---
 
@@ -128,7 +128,7 @@ python HyperShuffle.py
 
 | Command | Shortcut | Description |
 |---|---|---|
-| `shuffle` | `s` or _Enter_ | Smart shuffle — cycles to the next collection and plays the least-watched episode |
+| `shuffle` | `s` or _Enter_ | Smart shuffle; cycles to the next collection and plays the least-watched episode |
 | `quick` | `q` | Interactive collection picker with smart subtitle auto-enable |
 | `remote` | `r` | Launch remote control mode for a currently playing client |
 | `collections` | `c` | List all collections with item counts |
@@ -142,7 +142,7 @@ python HyperShuffle.py
 
 | Command | Description |
 |---|---|
-| `diag` | Detailed diagnostics — connection tests, session state, API version |
+| `diag` | Detailed diagnostics; connection tests, session state, API version |
 | `samsung` | Samsung/Tizen TV troubleshooting guide |
 | `subs on` | Enable subtitles on the current client (manual, per-session) |
 | `subs off` | Disable subtitles on the current client |
@@ -185,19 +185,19 @@ Step 9 │ Advance the collection index → save to disk for the next run
 | Mode | Behaviour |
 |---|---|
 | `1` Push holiday back _(default)_ | Keyword-scans episode titles; regular episodes play first |
-| `2–8` Promote specific holiday | Halloween, Thanksgiving, Christmas, Summer, Valentine's, Easter, New Year |
+| `2-8` Promote specific holiday | Halloween, Thanksgiving, Christmas, Summer, Valentine's, Easter, New Year |
 | `9` True Random | Standard `random.shuffle` |
 | `10` 3-Pass Shuffle | Pass 1: shuffle → Pass 2: segment reverse + reshuffle → Pass 3: random pop |
 
 Holiday keywords are defined in `HyperShuffle.py` and can be edited directly. Current sets:
 
-- **Halloween** — `halloween`, `horror`, `treehouse`, `spooky`, `scary`, `ghost`, `witch`, `vampire`, `monster`
-- **Thanksgiving** — `thanksgiving`, `turkey`, `pilgrim`, `harvest`, `feast`, `gratitude`
-- **Christmas** — `christmas`, `x-mas`, `xmas`, `holy night`, `santa`, `elf`, `reindeer`, `snowman`
-- **Summer** — `summer`, `beach`, `vacation`, `hot`, `sun`, `pool`, `barbecue`, `bbq`, `picnic`
-- **Valentine's** — `valentine`, `love`, `romance`, `heart`, `cupid`
-- **Easter** — `easter`, `bunny`, `egg`, `spring`, `resurrection`
-- **New Year** — `new year`, `new years`, `resolution`, `celebration`, `fireworks`
+- **Halloween**: `halloween`, `horror`, `treehouse`, `spooky`, `scary`, `ghost`, `witch`, `vampire`, `monster`
+- **Thanksgiving**: `thanksgiving`, `turkey`, `pilgrim`, `harvest`, `feast`, `gratitude`
+- **Christmas**: `christmas`, `x-mas`, `xmas`, `holy night`, `santa`, `elf`, `reindeer`, `snowman`
+- **Summer**: `summer`, `beach`, `vacation`, `hot`, `sun`, `pool`, `barbecue`, `bbq`, `picnic`
+- **Valentine's**: `valentine`, `love`, `romance`, `heart`, `cupid`
+- **Easter**: `easter`, `bunny`, `egg`, `spring`, `resurrection`
+- **New Year**: `new year`, `new years`, `resolution`, `celebration`, `fireworks`
 
 ### 4. Smart Subtitle Selection
 
@@ -352,7 +352,7 @@ HyperShuffle> samsung
 Key points:
 - Restart the Plex app on the TV before connecting
 - HyperShuffle falls back to session-based control automatically
-- Use the TV remote for volume and subtitle toggling — these are not remotely controllable on most Samsung models
+- Use the TV remote for volume and subtitle toggling; these are not remotely controllable on most Samsung models
 
 ---
 
